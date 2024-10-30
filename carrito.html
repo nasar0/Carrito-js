@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+    <script src="datos.js"></script>
+    <style>
+        body{
+            scroll-behavior: smooth;
+        }
+        @keyframes animar{
+            0%{
+                opacity: 0;
+                scale:0;
+            } 
+            100%{
+                opacity: 1;
+                scale:100%;
+            }
+        }
+        .cold-md-4{
+            view-timeline: --efecto block;
+            animation-timeline: --efecto;
+            animation-name: animar;
+            animation-fill-mode: both;
+            animation-range: 20% cover 50%;
+        }
+        div.flecha a{
+            background-color: transparent !important;
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            transition:opacity 1s;
+            opacity: 0;
+        }
+       
+
+    </style>
+</head>
+<body>
+    <!-- Estructura del carrito -->
+    <div>
+        <table>
+            <tr>
+                <td><img src="${producto.thumbnail}" alt="" class="img-fluid"></td>
+                <td>${producto.title}</td>
+                <td>${producto.price}</td>
+                <td>X</td>
+            </tr>
+        </table>
+    </div>
+    <!-- Inicio del carrito -->
+    <div class="container my-4 p-3 border">
+        <div class="row">
+            <div class="col-2">
+                Logo
+            </div>
+            <div class="col-10 carrito text-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                  </svg>
+                  <span class="badge bg-danger rounded-pill">0</span>
+            </div>
+        </div>
+    </div>
+    <!-- Fin del carrito -->
+    <script>
+        const row=  document.createElement("div");
+        let carrito =[];
+        document.addEventListener("DOMContentLoaded",()=>{
+            //Declarar variables
+            let container = document.createElement("div");
+            //crear clases
+            container.setAttribute("class","container text-center my-5");
+            row.setAttribute("class","row");
+            //meter row dentro de container
+            container.append(row);
+            //pintar datos
+            productos.forEach(producto => {
+                let col =document.createElement("div");
+                    col.setAttribute("class","col-md-4");
+                    row.append(col);
+                    col.innerHTML=`
+                        <div class="card text-white bg-primary mb-3" >
+                            <div class="card-header">
+                                <img src="${producto.thumbnail}" alt="" class="img-fluid">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">${producto.title}</h4>
+                                <h4 class="fs-6">${producto.description}</h4>
+                                <p>${producto.price}</p>
+                                <a href="#" class="badge bg-info rounded-pill p-3" onClick="carritoAdd(this,${producto.id})">Añadir al carrito</a>
+                            </div>
+                        </div>
+                    `
+            });
+            // Añadir buscador
+            let input =document.createElement("input");
+                input.setAttribute("class","form-control my-2 p-3 rounded-5")
+                input.setAttribute("type","search")
+                input.setAttribute("placeholder","Buscar informacion")
+                container.prepend(input);
+
+                //insertar container en el body insertar al final
+                document.body.append(container);
+
+
+                // buscador funcines
+                let buscador = document.querySelector("input[type='search']")
+                let nomRobot = document.querySelectorAll("h4.card-title")
+                input.addEventListener("input",(e)=>{
+                    let busqueda =e.target.value.toLowerCase();
+                    nomRobot.forEach(nom => {
+                        if (!nom.textContent.toLocaleLowerCase().includes(busqueda)) {
+                            nom.closest(".col-md-4").style.display="none"
+                        }else{
+                            nom.closest(".col-md-4").style.display="block"
+                        }
+                    });
+                })
+            
+                
+
+        })
+        //Funcion del carrito: Añadir
+        function carritoAdd(element,id) {
+            const padre = element.parentElement.parentElement;
+            let productoActual={
+                id:id,
+                title:padre.querySelector("h4.card-title").textContent,
+                price:padre.querySelector("p").textContent,
+                img:padre.querySelector("img").src,
+                cantidad:1
+            }
+            let existe = carrito.some(producto => producto.id == id)
+            console.log(existe)
+            if (!existe) {
+                carrito.push(productoActual);
+            }else{
+                carrito.map(producto =>{
+                    if (producto.id == id) {
+                        producto.cantidad++;
+                    }
+                })
+            }
+            console.log(carrito)
+        }
+        
+    </script>
+</body>
+</html>
