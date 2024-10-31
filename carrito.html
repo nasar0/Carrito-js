@@ -41,14 +41,9 @@
 </head>
 <body>
     <!-- Estructura del carrito -->
-    <div>
-        <table>
-            <tr>
-                <td><img src="${producto.thumbnail}" alt="" class="img-fluid"></td>
-                <td>${producto.title}</td>
-                <td>${producto.price}</td>
-                <td>X</td>
-            </tr>
+    <div >
+        <table class="carrito">
+            
         </table>
     </div>
     <!-- Inicio del carrito -->
@@ -69,6 +64,7 @@
     <script>
         const row=  document.createElement("div");
         let carrito =[];
+        let carro = document.querySelector(".carrito");
         document.addEventListener("DOMContentLoaded",()=>{
             //Declarar variables
             let container = document.createElement("div");
@@ -91,11 +87,12 @@
                                 <h4 class="card-title">${producto.title}</h4>
                                 <h4 class="fs-6">${producto.description}</h4>
                                 <p>${producto.price}</p>
-                                <a href="#" class="badge bg-info rounded-pill p-3" onClick="carritoAdd(this,${producto.id})">Añadir al carrito</a>
+                                <button class="badge bg-info rounded-pill p-3" onClick="carritoAdd(this,${producto.id})">Añadir al carrito</button>
                             </div>
                         </div>
                     `
             });
+            //te falta ca
             // Añadir buscador
             let input =document.createElement("input");
                 input.setAttribute("class","form-control my-2 p-3 rounded-5")
@@ -105,7 +102,6 @@
 
                 //insertar container en el body insertar al final
                 document.body.append(container);
-
 
                 // buscador funcines
                 let buscador = document.querySelector("input[type='search']")
@@ -118,7 +114,7 @@
                         }else{
                             nom.closest(".col-md-4").style.display="block"
                         }
-                    });
+                    })
                 })
             
                 
@@ -138,16 +134,31 @@
             console.log(existe)
             if (!existe) {
                 carrito.push(productoActual);
+                
             }else{
                 carrito.map(producto =>{
                     if (producto.id == id) {
                         producto.cantidad++;
                     }
                 })
+
+                
             }
+            carro.innerHTML=""
+            carrito.forEach(art=>{
+                carro.innerHTML+=`
+                        <tr>
+                            <td><img src="${art.thumbnail}" alt="" class="img-fluid"></td>
+                            <td>${art.title}</td>
+                            <td>${art.price}$</td>
+                            <td>${art.cantidad}</td>
+                            <td>X</td>
+                        </tr>`
+            })
             console.log(carrito)
+            
+            
         }
-        
     </script>
 </body>
 </html>
