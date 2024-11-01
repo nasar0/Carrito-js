@@ -35,14 +35,48 @@
             transition:opacity 1s;
             opacity: 0;
         }
-       
-
+       .carri{
+           
+       }
+       #estructura{
+        display: none;
+        min-height: 100vh;
+        position: absolute ;
+        left:75%;
+        top: 0;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.851);
+            img{
+                width: 80%;
+            }
+            h3{
+                text-align: center;
+                padding: 3%;
+                span{
+                    color: red;
+                }
+            }
+       }
+       td{
+        width: auto;
+        padding: 10px;
+        text-align: left;
+       }
+       tr{
+        border-top:solid white ;
+        border-bottom:solid white ;
+       }
+       #X{
+        font-size: 30px;
+        font-weight: bolder;
+       }
     </style>
 </head>
 <body>
     <!-- Estructura del carrito -->
-    <div >
-        <table class="carrito">
+    <div id="estructura">
+        <h3>&#10006;</h3>
+        <table class="carri">
             
         </table>
     </div>
@@ -51,20 +85,20 @@
         <div class="row">
             <div class="col-2">
                 Logo
-            </div>
-            <div class="col-10 carrito text-end">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+            </div> 
+            <div class="col-10 carrito text-end" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" id="buy" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                   </svg>
-                  <span class="badge bg-danger rounded-pill">0</span>
-            </div>
+                <span class="badge bg-danger rounded-pill" id="contador">0</span>
+            </div>  
         </div>
     </div>
     <!-- Fin del carrito -->
     <script>
         const row=  document.createElement("div");
         let carrito =[];
-        let carro = document.querySelector(".carrito");
+        let carro = document.querySelector(".carri");
         document.addEventListener("DOMContentLoaded",()=>{
             //Declarar variables
             let container = document.createElement("div");
@@ -92,7 +126,7 @@
                         </div>
                     `
             });
-            //te falta ca
+       
             // Añadir buscador
             let input =document.createElement("input");
                 input.setAttribute("class","form-control my-2 p-3 rounded-5")
@@ -134,7 +168,8 @@
             console.log(existe)
             if (!existe) {
                 carrito.push(productoActual);
-                
+                let contador = document.getElementById("contador")
+                contador.textContent = carrito.length;
             }else{
                 carrito.map(producto =>{
                     if (producto.id == id) {
@@ -146,19 +181,51 @@
             }
             carro.innerHTML=""
             carrito.forEach(art=>{
+                console.log(art);
+                
                 carro.innerHTML+=`
                         <tr>
-                            <td><img src="${art.thumbnail}" alt="" class="img-fluid"></td>
+                            <td><img src='${art.img}' alt="" class="img-fluid"></td>
                             <td>${art.title}</td>
                             <td>${art.price}$</td>
                             <td>${art.cantidad}</td>
-                            <td>X</td>
-                        </tr>`
+                            <td id="equis" onclick="borrar(${art.id})" >&#10006;</td>
+                        </tr>`;
             })
-            console.log(carrito)
+            console.log(carrito.length)
+            // contador de productos
+            let buy = document.querySelector("#buy")
+            let estructura = document.querySelector("#estructura")
+            let cierre = document.querySelector("#estructura h3")
+            buy.addEventListener("click",()=>{
+                estructura.style.display="block"
+            })
+            cierre.addEventListener("click",()=>{
+                estructura.style.display="none"
+            })
             
-            
+            let borrararticulo = document.querySelector("#equis")
+            let idrec= borrar(id);
+            borrararticulo.addEventListener("clik",()=>{
+                borrararticulo.style.background = "red";
+                // carrito=carrito.filter(art => art.id!=id);
+                // console.log(carrito);
+                // carro.innerHTML=""
+                // carrito.forEach(art=>{
+                //     console.log("olaaa");
+                // carro.innerHTML+=`
+                //         <tr>
+                //             <td><img src='${art.img}' alt="" class="img-fluid"></td>
+                //             <td>${art.title}</td>
+                //             <td>${art.price}$</td>
+                //             <td>${art.cantidad}</td>
+                //             <td id="X" onclick="borrar(${art.id})" >&#10006;</td>
+                //         </tr>`;
+                // })
+            })
+           
         }
+        function borrar(id) {return id} 
     </script>
 </body>
 </html>
