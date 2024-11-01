@@ -197,7 +197,7 @@
             
             let idrec= idpr(id);
             borrararticulo.forEach(borrararticulo => {
-                
+
                 borrararticulo.addEventListener("click",()=>{
                 carrito=carrito.filter(art => art.id!=idrec);
                 mostraCarrito()
@@ -212,6 +212,7 @@
                 console.log(carrito.length);
                 console.log("id fuera;"+idrec);
                
+                
             });
             
            
