@@ -165,7 +165,7 @@
                 cantidad:1
             }
             let existe = carrito.some(producto => producto.id == id)
-            console.log(existe)
+            
             if (!existe) {
                 carrito.push(productoActual);
                 let contador = document.getElementById("contador")
@@ -179,24 +179,13 @@
 
                 
             }
-            carro.innerHTML=""
-            carrito.forEach(art=>{
-                console.log(art);
-                
-                carro.innerHTML+=`
-                        <tr>
-                            <td><img src='${art.img}' alt="" class="img-fluid"></td>
-                            <td>${art.title}</td>
-                            <td>${art.price}$</td>
-                            <td>${art.cantidad}</td>
-                            <td id="equis" onclick="borrar(${art.id})" >&#10006;</td>
-                        </tr>`;
-            })
-            console.log(carrito.length)
+            mostraCarrito()
+
             // contador de productos
             let buy = document.querySelector("#buy")
             let estructura = document.querySelector("#estructura")
             let cierre = document.querySelector("#estructura h3")
+            
             buy.addEventListener("click",()=>{
                 estructura.style.display="block"
             })
@@ -204,28 +193,44 @@
                 estructura.style.display="none"
             })
             
-            let borrararticulo = document.querySelector("#equis")
-            let idrec= borrar(id);
-            borrararticulo.addEventListener("clik",()=>{
-                borrararticulo.style.background = "red";
-                // carrito=carrito.filter(art => art.id!=id);
-                // console.log(carrito);
-                // carro.innerHTML=""
-                // carrito.forEach(art=>{
-                //     console.log("olaaa");
-                // carro.innerHTML+=`
-                //         <tr>
-                //             <td><img src='${art.img}' alt="" class="img-fluid"></td>
-                //             <td>${art.title}</td>
-                //             <td>${art.price}$</td>
-                //             <td>${art.cantidad}</td>
-                //             <td id="X" onclick="borrar(${art.id})" >&#10006;</td>
-                //         </tr>`;
-                // })
-            })
+            let borrararticulo = document.querySelectorAll(".equis")
+            
+            let idrec= idpr(id);
+            borrararticulo.forEach(borrararticulo => {
+                
+                borrararticulo.addEventListener("click",()=>{
+                carrito=carrito.filter(art => art.id!=idrec);
+                mostraCarrito()
+               
+                if (carrito.length==0) {
+                    estructura.style.display="none"
+                }
+                contador.textContent = carrito.length;
+                console.log(carrito.length);
+                console.log("id de;"+idrec);
+                }) 
+                console.log(carrito.length);
+                console.log("id fuera;"+idrec);
+               
+            });
+            
+           
            
         }
-        function borrar(id) {return id} 
+        
+        function mostraCarrito() {
+            carro.innerHTML=""
+            carrito.forEach(art=>{
+                carro.innerHTML+=`
+                        <tr>
+                            <td><img src='${art.img}' alt="" class="img-fluid"></td>
+                            <td>${art.title}</td>
+                            <td>${art.price}$</td>
+                            <td>${art.cantidad}</td>
+                            <td onclick="idpr(this,${art.id})" ><div class="equis">&#10006;</div></td>
+                        </tr>`;
+            })
+        }
     </script>
 </body>
 </html>
