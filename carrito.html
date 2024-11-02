@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
     <script src="datos.js"></script>
     <style>
-        body{
+        body{ 
             scroll-behavior: smooth;
         }
         @keyframes animar{
@@ -192,33 +192,19 @@
             cierre.addEventListener("click",()=>{
                 estructura.style.display="none"
             })
-            
-            let borrararticulo = document.querySelectorAll(".equis")
-            
-            let idrec= idpr(id);
-            borrararticulo.forEach(borrararticulo => {
-
-                borrararticulo.addEventListener("click",()=>{
-                carrito=carrito.filter(art => art.id!=idrec);
+           
+        }
+        function borrar(id) {
+            let borrararticulo = document.querySelector(".equis")
+            borrararticulo.addEventListener("click",()=>{
+                carrito = carrito.filter(art => art.id !== id);
                 mostraCarrito()
-               
                 if (carrito.length==0) {
                     estructura.style.display="none"
                 }
                 contador.textContent = carrito.length;
-                console.log(carrito.length);
-                console.log("id de;"+idrec);
-                }) 
-                console.log(carrito.length);
-                console.log("id fuera;"+idrec);
-               
-                
-            });
-            
-           
-           
+            }) 
         }
-        
         function mostraCarrito() {
             carro.innerHTML=""
             carrito.forEach(art=>{
@@ -228,10 +214,11 @@
                             <td>${art.title}</td>
                             <td>${art.price}$</td>
                             <td>${art.cantidad}</td>
-                            <td onclick="idpr(this,${art.id})" ><div class="equis">&#10006;</div></td>
+                            <td onclick="borrar(${art.id})" class="equis">&#10006;</td>
                         </tr>`;
             })
         }
+        
     </script>
 </body>
 </html>
