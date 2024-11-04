@@ -207,6 +207,7 @@
         }
         function mostraCarrito() {
             carro.innerHTML=""
+            let sumatoria=0;
             carrito.forEach(art=>{
                 carro.innerHTML+=`
                         <tr>
@@ -216,7 +217,10 @@
                             <td>${art.cantidad}</td>
                             <td onclick="borrar(${art.id})" class="equis">&#10006;</td>
                         </tr>`;
+                        sumatoria +=Number(art.price);
             })
+            console.log(sumatoria);
+            carro.innerHTML+=`<p>Total: ${sumatoria}</p>`;
         }
         
     </script>
