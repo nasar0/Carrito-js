@@ -35,9 +35,7 @@
             transition:opacity 1s;
             opacity: 0;
         }
-       .carri{
-           
-       }
+       
        #estructura{
         display: none;
         min-height: 100vh;
@@ -62,6 +60,7 @@
         padding: 10px;
         text-align: left;
        }
+       
        tr{
         border-top:solid white ;
         border-bottom:solid white ;
@@ -195,15 +194,13 @@
            
         }
         function borrar(id) {
-            let borrararticulo = document.querySelector(".equis")
-            borrararticulo.addEventListener("click",()=>{
-                carrito = carrito.filter(art => art.id !== id);
-                mostraCarrito()
-                if (carrito.length==0) {
-                    estructura.style.display="none"
-                }
-                contador.textContent = carrito.length;
-            }) 
+            carrito = carrito.filter(art => art.id !== id);
+            if (carrito.length==0) {
+                estructura.style.display="none"
+            }
+            contador.textContent = carrito.length;
+            mostraCarrito()
+            
         }
         function mostraCarrito() {
             carro.innerHTML=""
@@ -217,10 +214,11 @@
                             <td>${art.cantidad}</td>
                             <td onclick="borrar(${art.id})" class="equis">&#10006;</td>
                         </tr>`;
-                        sumatoria +=Number(art.price);
+                        
+                        sumatoria += Number(art.price  * art.cantidad);
             })
             console.log(sumatoria);
-            carro.innerHTML+=`<p>Total: ${sumatoria}</p>`;
+            carro.innerHTML+=`<p>Total: ${sumatoria.toFixed(2)}€</p>`;
         }
         
     </script>
