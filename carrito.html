@@ -93,12 +93,13 @@
             </div>  
         </div>
     </div>
-    <!-- Fin del carrito -->
-    <script>
+    <!-- Fin del carrito --> 
+    <script> 
         const row=  document.createElement("div");
         let carrito =[];
         let carro = document.querySelector(".carri");
         document.addEventListener("DOMContentLoaded",()=>{
+            mostrar()
             //Declarar variables
             let container = document.createElement("div");
             //crear clases
@@ -167,6 +168,7 @@
             
             if (!existe) {
                 carrito.push(productoActual);
+                almacenar()
                 let contador = document.getElementById("contador")
                 contador.textContent = carrito.length;
             }else{
@@ -220,6 +222,21 @@
             console.log(sumatoria);
             carro.innerHTML+=`<p>Total: ${sumatoria.toFixed(2)}€</p>`;
         }
+        function almacenar() {
+            localStorage.setItem("carrito",JSON.stringify(carrito));
+            console.log("guardao");
+        }
+        function mostrar() {
+            const carritoGuardado = localStorage.getItem("carrito");
+            console.log(carritoGuardado);
+            if (!  (carritoGuardado==null)) {
+                carrao = JSON.parse(carritoGuardado,"carrito");
+                console.log("Carrito cargado desde LocalStorage:", carrito);
+                carrito.push(carrao);
+                mostraCarrito(); 
+            }
+        }
+     
         
     </script>
 </body>
